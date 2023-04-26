@@ -1,0 +1,51 @@
+{% extends 'FinalProjApp/base.html' %}
+
+{% block content %}
+    <h1>Course Details</h1>
+    
+
+<div class = "table">
+    <table>
+        <thead>
+            <tr>
+                <th>Course ID</th>
+                <th>Course Title</th>
+                <th>Course Name</th>
+                <th>Course Section Code</th>
+                <th>Course Department</th>
+                <th>Instructor Full Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.courseid }}</td>
+                <td>{{ course.coursetitle }}</td>
+                <td>{{ course.coursename }}</td>
+                <td>{{ course.coursesectioncode }}</td>
+                <td>{{ course.coursedepartment }}</td>
+                <td>{{ course.instructorname }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+    
+   <div class="pager">
+    <span class="nav-links">
+        {% if courses.has_previous %}
+            <a href="?page={{ courses.previous_page_number }}">Back</a>
+        {% endif %}
+        
+        <span class="current-page">
+             Page {{ courses.number }} of {{ courses.paginator.num_pages }}
+        </span>
+        
+        {% if courses.has_next %}
+            <a href="?page={{ courses.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

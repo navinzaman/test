@@ -1,0 +1,46 @@
+{% extends 'FinalProjApp/base.html' %}
+
+{% block content %}
+    <h1>Student Details</h1>
+    
+<div class = "table">
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Major</th>
+                <th>Year</th>
+                <th>GPA</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.firstname }}</td>
+                <td>{{ student.lastname }}</td>
+                <td>{{ student.studentmajor }}</td>
+                <td>{{ student.studentyear }}</td>
+                <td>{{ student.gpa|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    
+  <div class="pager">
+    <span class="nav-links">
+        {% if students.has_previous %}
+            <a href="?page={{ students.previous_page_number }}">Back</a>
+        {% endif %}
+        
+        <span class="current-page">
+            Page {{ students.number }}  of {{ students.paginator.num_pages }}
+        </span>
+        
+        {% if students.has_next %}
+            <a href="?page={{ students.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

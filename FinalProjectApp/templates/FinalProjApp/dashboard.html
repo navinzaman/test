@@ -1,0 +1,49 @@
+{% extends 'FinalProjApp/base.html' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-2">
+                <div class="card-header">
+                    Total students
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_students }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card mb-2">
+                <div class="card-header">
+                    Average GPA
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ avg_gpa|floatformat:2 }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card mb-2">
+                <div class="card-header">
+                    Number of offered courses
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ course_count }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <h2>Student counts by year</h2>
+            <ul class="list-group">
+                {% for year_count in year_counts %}
+                <li class="list-group-item">{{ year_count.studentyear }}: {{ year_count.count }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

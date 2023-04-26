@@ -1,0 +1,108 @@
+{% extends 'FinalProjApp/base.html' %}
+
+{% block content %}
+    <h1>Student Enrollment</h1>
+
+    <div class="container">
+        <br/>
+        <div class="row">
+            <div class="col-md text-center">
+                <select class="form-select" id="student">
+                    <option value="">Please select a student</option>
+                    {% for student in students %}
+                    <option value="{{ student.firstname }} {{ student.lastname }}">{{ student.firstname }} {{ student.lastname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md text-center">
+                <select class="form-select" id="course">
+                    <option value="">Please select a course</option>
+                    {% for course in courses %}
+                    <option value="{{ course.coursename }}">{{ course.coursename }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <br/>
+        <div class="text-center">
+            <button class="btn btn-primary" id="btnsubmit">Enroll</button>
+        </div>
+        <br/>
+        <div id="message" class="text-center"></div>
+        <br/>
+        
+        
+        
+ <div class="container text-center">
+    <h4>Enrolled Courses</h4>
+    <label for="student_dropdown">Select Student:</label>
+    <select id="student_dropdown" class="form-select">
+        <option value="">-- Select student --</option>
+        {% for student in students %}
+            <option value="{{ student.id }}">{{ student.firstname }} {{ student.lastname }}</option>
+        {% endfor %}
+    </select>
+    <br/>
+    <div id="enrolled_courses">
+        {% if selected_student_id %}
+            <h5>Enrolled Courses for {{ selected_student_name }}</h5>
+            <table class="table">
+                <thead class="text-center">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Course Name</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for enrolldata in enrolldata %}
+                        <tr>
+                            <td>{{ enrolldata.student }}</td>
+                            <td>{{ enrolldata.course }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">No enrolled courses found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        $('#btnsubmit').click(function() {
+            var selected_student_id = $('#student').val();
+            var selected_course_id = $('#course').val();
+            showCourses(selected_student_id, selected_course_id);
+        });
+
+        function showCourses(student_id, course_id) {
+            $.ajax({
+                url: "{% url 'save' %}",
+                method: "GET",
+                data: { student: student_id, course: course_id },
+                success: function(response) {
+                   $('#message').html(response);
+                     console.log(response);
+                },
+                error: function(response) {
+                $('#message').html(response);
+                   console.log(response);
+                }
+            });          
+        }
+    });
+    
+    
+</script>
+
+{% endblock %}
